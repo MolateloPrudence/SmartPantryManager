@@ -51,7 +51,7 @@ public class RecipeMatcher {
      * Check if a specific required ingredient is in the pantry with enough quantity
      */
     private static boolean hasIngredientInPantry(RecipeIngredient required, List<PantryItem> pantryItems) {
-        String normalizedRequiredName = normalizeIngredientNameIngredientName());
+        String normalizedRequiredName = normalizeIngredientName(required.getIngredientName());
 
         for (PantryItem pantryItem : pantryItems) {
             String normalizedPantryName = normalizeIngredientName(pantryItem.getName());
