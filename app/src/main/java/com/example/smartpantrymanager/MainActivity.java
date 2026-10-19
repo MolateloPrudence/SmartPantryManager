@@ -1,24 +1,91 @@
 package com.example.smartpantrymanager;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.smartpantrymanager.adapters.PantryAdapter;
+import com.example.smartpantrymanager.database.DatabaseHelper;
+import com.example.smartpantrymanager.models.PantryItem;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PantryAdapter.OnItemClickListener {
+
+    private RecyclerView recyclerView;
+    private PantryAdapter adapter;
+    private DatabaseHelper dbHelper;
+    private TextView tvEmptyState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        dbHelper = new DatabaseHelper(this);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        recyclerView = findViewById(R.id.recyclerViewPantry);
+        tvEmptyState = findViewById(R.id.tvEmptyState);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        FloatingActionButton fab = findViewById(R.id.fabAddItem);
+        fab.setOnClickListener(v -> {
+            // NOTE: This will show a red error until we create AddEditItemActivity in the next step!
+            Intent intent = new Intent(MainActivity.this, AddEditItemActivity.class);
+            startActivity(intent);
         });
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
+        bottomNav.setSelectedItemId(R.id.nav_pantry);
+
+        loadPantryItems();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadPantryItems(); // Refresh list when returning to this activity
+    }
+
+    private void loadPantryItems() {
+        List<PantryItem> pantryItems = dbHelper.getAllPantryItems();
+        if (pantryItems.isEmpty()) {
+            tvEmptyState.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            tvEmptyState.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+
+        adapter = new PantryAdapter(this, pantryItems, this);
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onItemClick(PantryItem item) {
+        // Will be implemented later
+    }
+
+    @Override
+    public void onItemLongClick(PantryItem item) {
+        new AlertDialog.Builder(this)
+                .setTitle("Delete Item")
+                .setMessage("Are you sure you want to delete \"" + item.getName() + "\"?")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    dbHelper.deletePantryItem(item.getId());
+                    loadPantryItems();
+                    Toast.makeText(this, "Item deleted", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 }
