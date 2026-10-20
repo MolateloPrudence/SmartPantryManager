@@ -47,6 +47,19 @@ public class MainActivity extends AppCompatActivity implements PantryAdapter.OnI
 
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
         bottomNav.setSelectedItemId(R.id.nav_pantry);
+        bottomNav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_pantry) {
+                return true;
+            } else if (itemId == R.id.nav_recipes) {
+                startActivity(new Intent(MainActivity.this, SuggestedRecipesActivity.class));
+                return true;
+            } else if (itemId == R.id.nav_settings) {
+                // We will build Settings later
+                return true;
+            }
+            return false;
+        });
 
         loadPantryItems();
     }
