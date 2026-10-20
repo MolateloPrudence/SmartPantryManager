@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements PantryAdapter.OnI
         setContentView(R.layout.activity_main);
 
         dbHelper = new DatabaseHelper(this);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements PantryAdapter.OnI
 
         FloatingActionButton fab = findViewById(R.id.fabAddItem);
         fab.setOnClickListener(v -> {
-            // NOTE: This will show a red error until we create AddEditItemActivity in the next step!
+            // This opens the Add screen (no red text now!)
             Intent intent = new Intent(MainActivity.this, AddEditItemActivity.class);
             startActivity(intent);
         });
@@ -72,11 +73,15 @@ public class MainActivity extends AppCompatActivity implements PantryAdapter.OnI
 
     @Override
     public void onItemClick(PantryItem item) {
-        // Will be implemented later
+        // This opens the Edit screen and passes the item's ID
+        Intent intent = new Intent(this, AddEditItemActivity.class);
+        intent.putExtra("ITEM_ID", item.getId());
+        startActivity(intent);
     }
 
     @Override
     public void onItemLongClick(PantryItem item) {
+        // Long press to delete
         new AlertDialog.Builder(this)
                 .setTitle("Delete Item")
                 .setMessage("Are you sure you want to delete \"" + item.getName() + "\"?")
