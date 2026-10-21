@@ -64,6 +64,25 @@ public class SuggestedRecipesActivity extends AppCompatActivity implements Recip
             @Override
             public void onTabReselected(TabLayout.Tab tab) {}
         });
+        com.google.android.material.bottomnavigation.BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
+        if (bottomNav != null) {
+            bottomNav.setSelectedItemId(R.id.nav_recipes);
+            bottomNav.setOnItemSelectedListener(item -> {
+                int itemId = item.getItemId();
+                if (itemId == R.id.nav_pantry) {
+                    startActivity(new Intent(this, MainActivity.class));
+                    finish();
+                    return true;
+                } else if (itemId == R.id.nav_recipes) {
+                    return true;
+                } else if (itemId == R.id.nav_settings) {
+                    startActivity(new Intent(this, SettingsActivity.class));
+                    finish();
+                    return true;
+                }
+                return false;
+            });
+        }
 
         loadRecipes();
     }

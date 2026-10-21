@@ -23,7 +23,7 @@
         <activity android:name=".AddEditItemActivity" />
         <activity android:name=".SuggestedRecipesActivity" />
         <activity android:name=".RecipeDetailActivity" />
-
+        <activity android:name=".SettingsActivity" />
 
     </application>
 
