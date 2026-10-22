@@ -5,15 +5,14 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.example.smartpantrymanager.database.DatabaseHelper;
 import com.example.smartpantrymanager.models.PantryItem;
 
@@ -22,16 +21,14 @@ import java.util.Locale;
 
 public class AddEditItemActivity extends AppCompatActivity {
 
-    private TextInputEditText etName, etQuantity, etExpiry;
+    private EditText etName, etQuantity, etExpiry;
     private AutoCompleteTextView actUnit;
-    private TextInputLayout tilName, tilQuantity, tilUnit;
     private MaterialButton btnSave, btnDelete;
     private DatabaseHelper dbHelper;
 
-    private int itemId = -1; // -1 means we are adding a new item
+    private int itemId = -1; // -1 means add mode
     private boolean isEditMode = false;
 
-    // The options for the unit dropdown
     private final String[] units = {
             "pieces", "grams", "kilograms", "milliliters", "liters",
             "cups", "tablespoons", "teaspoons", "slices", "heads", "cloves", "bunches"
@@ -44,25 +41,36 @@ public class AddEditItemActivity extends AppCompatActivity {
 
         dbHelper = new DatabaseHelper(this);
 
-        // Setup Toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(v -> finish()); // Back button closes screen
+        // Setup Custom Back Button
+        ImageView btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
 
         // Link Java variables to XML views
         etName = findViewById(R.id.etName);
         etQuantity = findViewById(R.id.etQuantity);
         etExpiry = findViewById(R.id.etExpiry);
         actUnit = findViewById(R.id.actUnit);
-        tilName = findViewById(R.id.tilName);
-        tilQuantity = findViewById(R.id.tilQuantity);
-        tilUnit = findViewById(R.id.tilUnit);
         btnSave = findViewById(R.id.btnSave);
         btnDelete = findViewById(R.id.btnDelete);
 
         // Setup the Unit Dropdown
-        ArrayAdapter<String> unitAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, units);
+        ArrayAdapter<String> unitAdapter = new ArrayAdapter<>(this, R.layout.item_dropdown, units);
         actUnit.setAdapter(unitAdapter);
+
+        // Force the dropdown to show immediately when clicked, even without typing
+        actUnit.setOnClickListener(v -> actUnit.showDropDown());
+
+        // Hide the keyboard so it doesn't cover the dropdown menu
+        actUnit.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                actUnit.showDropDown();
+                // Hide soft keyboard
+                android.view.inputmethod.InputMethodManager imm = (android.view.inputmethod.InputMethodManager) getSystemService(android.content.Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(actUnit.getWindowToken(), 0);
+                }
+            }
+        });
 
         // Show Date Picker when clicking Expiry Date
         etExpiry.setOnClickListener(v -> showDatePicker());
@@ -73,9 +81,6 @@ public class AddEditItemActivity extends AppCompatActivity {
             if (itemId != -1) {
                 isEditMode = true;
                 loadItemData();
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle("Edit Ingredient");
-                }
                 btnDelete.setVisibility(android.view.View.VISIBLE); // Show delete button
             }
         }
@@ -140,42 +145,34 @@ public class AddEditItemActivity extends AppCompatActivity {
 
     // Checks if the user filled everything out correctly
     private boolean validateInputs() {
-        boolean isValid = true;
-
         if (TextUtils.isEmpty(etName.getText().toString().trim())) {
-            tilName.setError("Name is required");
-            isValid = false;
-        } else {
-            tilName.setError(null);
+            Toast.makeText(this, "Name is required", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
         String quantityStr = etQuantity.getText().toString().trim();
         if (TextUtils.isEmpty(quantityStr)) {
-            tilQuantity.setError("Quantity is required");
-            isValid = false;
-        } else {
-            try {
-                double quantity = Double.parseDouble(quantityStr);
-                if (quantity <= 0) {
-                    tilQuantity.setError("Must be greater than 0");
-                    isValid = false;
-                } else {
-                    tilQuantity.setError(null);
-                }
-            } catch (NumberFormatException e) {
-                tilQuantity.setError("Invalid number");
-                isValid = false;
+            Toast.makeText(this, "Quantity is required", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        try {
+            double quantity = Double.parseDouble(quantityStr);
+            if (quantity <= 0) {
+                Toast.makeText(this, "Quantity must be greater than 0", Toast.LENGTH_SHORT).show();
+                return false;
             }
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Invalid quantity number", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
         if (TextUtils.isEmpty(actUnit.getText().toString().trim())) {
-            tilUnit.setError("Please select a unit");
-            isValid = false;
-        } else {
-            tilUnit.setError(null);
+            Toast.makeText(this, "Please select a unit", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
-        return isValid;
+        return true;
     }
 
     // Pops up a confirmation dialog to delete
