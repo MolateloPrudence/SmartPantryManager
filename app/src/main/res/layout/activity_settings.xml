@@ -3,18 +3,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#F5F5F5">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <!-- Top Bar Area -->
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#000000"
-        app:navigationIcon="@android:drawable/ic_menu_revert"
-        app:title="Settings"
-        app:titleTextColor="@android:color/white" />
+        android:layout_height="wrap_content"
+        android:background="#000000">
 
-    <!-- Weight=1 makes this take up all remaining space above the bottom nav -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:navigationIcon="@android:drawable/ic_menu_revert"
+                app:title="" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Settings"
+                android:fontFamily="@font/pacifico"
+                android:textColor="#FFFFFF"
+                android:textSize="26sp" />
+        </FrameLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Main Content -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -28,7 +48,7 @@
             android:text="Preferences"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="#4CAF50" />
+            android:textColor="#000000" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switchExpiryAlerts"
@@ -36,6 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Enable expiry alerts"
+            android:textColor="#000000"
             android:textSize="16sp" />
 
         <TextView
@@ -43,21 +64,21 @@
             android:layout_height="wrap_content"
             android:text="Get notified when items are about to expire"
             android:textSize="12sp"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="#666666"
             android:layout_marginBottom="16dp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginVertical="16dp"
-            android:background="@android:color/darker_gray" />
+            android:background="#CCCCCC" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Smart Pantry Manager v1.0\nReduce food waste by cooking with what you have!"
             android:textSize="14sp"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="#666666" />
     </LinearLayout>
 
     <!-- Bottom Navigation -->
@@ -66,9 +87,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
+        app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="labeled"
         app:itemIconTint="#000000"
         app:itemTextColor="#000000"
-        app:menu="@menu/bottom_nav_menu"
-        app:labelVisibilityMode="labeled" />
+        app:itemTextAppearanceActive="@style/BoldTextStyle"
+        app:itemTextAppearanceInactive="@style/BoldTextStyle" />
 
 </LinearLayout>

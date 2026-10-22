@@ -40,7 +40,11 @@ public class SuggestedRecipesActivity extends AppCompatActivity implements Recip
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setTitle("");
+        }
         toolbar.setNavigationOnClickListener(v -> finish());
+
 
         recyclerView = findViewById(R.id.recyclerViewRecipes);
         layoutEmptyState = findViewById(R.id.layoutEmptyState);

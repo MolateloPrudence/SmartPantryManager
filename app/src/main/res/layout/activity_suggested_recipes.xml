@@ -3,24 +3,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#F5F5F5">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <!-- Top Bar Area -->
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#000000"
-        app:navigationIcon="@android:drawable/ic_menu_revert"
-        app:title="Suggested Recipes"
-        app:titleTextColor="@android:color/white" />
+        android:layout_height="wrap_content"
+        android:background="#000000">
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:navigationIcon="@android:drawable/ic_menu_revert"
+                app:title="" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Recipes"
+                android:fontFamily="@font/pacifico"
+                android:textColor="#FFFFFF"
+                android:textSize="26sp" />
+        </FrameLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Tabs -->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FFFFFF"
         app:tabMode="fixed"
-        app:tabTextColor="@android:color/black"
-        app:tabSelectedTextColor="#4CAF50" />
+        app:tabTextColor="#666666"
+        app:tabSelectedTextColor="#000000" />
 
     <!-- Empty state -->
     <LinearLayout
@@ -37,14 +59,13 @@
             android:id="@+id/tvEmptyMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:text="No recipes match your pantry yet.\nAdd more ingredients!"
             android:textAlignment="center"
             android:textSize="16sp"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="#000000" />
     </LinearLayout>
 
-    <!-- Recipe List. Note: height is 0dp and weight is 1 so it fits above the bottom nav -->
+    <!-- Recipe List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewRecipes"
         android:layout_width="match_parent"
@@ -58,9 +79,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
+        app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="labeled"
         app:itemIconTint="#000000"
         app:itemTextColor="#000000"
-        app:menu="@menu/bottom_nav_menu"
-        app:labelVisibilityMode="labeled" />
+        app:itemTextAppearanceActive="@style/BoldTextStyle"
+        app:itemTextAppearanceInactive="@style/BoldTextStyle" />
 
 </LinearLayout>

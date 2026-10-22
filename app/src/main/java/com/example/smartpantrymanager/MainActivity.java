@@ -33,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements PantryAdapter.OnI
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setTitle("");
+        }
 
         recyclerView = findViewById(R.id.recyclerViewPantry);
         tvEmptyState = findViewById(R.id.tvEmptyState);
