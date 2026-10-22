@@ -58,8 +58,9 @@ public class MainActivity extends AppCompatActivity implements PantryAdapter.OnI
                 startActivity(new Intent(MainActivity.this, SuggestedRecipesActivity.class));
                 return true;
             } else if (itemId == R.id.nav_settings) {
-                // We will build Settings later
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 return true;
+
             }
             return false;
         });
