@@ -12,7 +12,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#4CAF50"
+            android:background="#000000"
             app:title="My Pantry"
             app:titleTextColor="@android:color/white" />
     </com.google.android.material.appbar.AppBarLayout>
@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:text="Your pantry is empty.\nTap + to add ingredients!"
             android:textAlignment="center"
+            android:textColor="#000000"
             android:textSize="18sp"
             android:padding="32dp"
             android:visibility="gone" />
@@ -48,13 +49,18 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add"
-        app:backgroundTint="#4CAF50" />
+        app:backgroundTint="#000000"
+        app:tint="#FFFFFF" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:layout_marginBottom="24dp"
+        android:background="#FFFFFF"
+        app:itemIconTint="#000000"
+        app:itemTextColor="#000000"
         app:menu="@menu/bottom_nav_menu"
         app:labelVisibilityMode="labeled" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

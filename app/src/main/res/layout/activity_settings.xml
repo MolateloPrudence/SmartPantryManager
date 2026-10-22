@@ -9,7 +9,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#4CAF50"
+        android:background="#000000"
         app:navigationIcon="@android:drawable/ic_menu_revert"
         app:title="Settings"
         app:titleTextColor="@android:color/white" />
@@ -65,6 +65,9 @@
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        app:itemIconTint="#000000"
+        app:itemTextColor="#000000"
         app:menu="@menu/bottom_nav_menu"
         app:labelVisibilityMode="labeled" />
 

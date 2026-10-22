@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#4CAF50"
+        android:background="#000000"
         app:navigationIcon="@android:drawable/ic_menu_revert"
         app:title="Add Ingredient"
         app:titleTextColor="@android:color/white" />
@@ -95,10 +95,11 @@
             <!-- Save Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSave"
+                android:textColor="#FFFFFF"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="32dp"
-                android:backgroundTint="#4CAF50"
+                android:backgroundTint="#000000"
                 android:text="Save Ingredient"
                 android:textSize="16sp" />
 

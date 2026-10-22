@@ -1,9 +1,21 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.SmartPantryManager" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    </style>
+    <style name="Theme.SmartPantryManager" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color (Black) -->
+        <item name="colorPrimary">#000000</item>
+        <item name="colorPrimaryVariant">#000000</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
 
-    <style name="Theme.SmartPantryManager" parent="Base.Theme.SmartPantryManager" />
+        <!-- Secondary brand color -->
+        <item name="colorSecondary">#000000</item>
+        <item name="colorSecondaryVariant">#000000</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+
+        <!-- Status bar color (Black) -->
+        <item name="android:statusBarColor">#000000</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!-- Background color (Very light gray so white cards stand out) -->
+        <item name="android:windowBackground">#F5F5F5</item>
+    </style>
 </resources>
